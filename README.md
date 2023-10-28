@@ -23,6 +23,7 @@ This README provides detailed information on how to set up, develop, and deploy 
 
 ## Table of Contents
 
+- [Docker Quickstart](#docker-quickstart)
 - [Quickstart](#quickstart)
 - [About](#about)
   - [Plugins](#plugins)
@@ -58,6 +59,13 @@ This README provides detailed information on how to set up, develop, and deploy 
 - [Limitations](#limitations)
 - [Contributors](#contributors)
 - [Future Directions](#future-directions)
+
+## Docker Quickstart
+
+Follow these steps to quickly set up and run the MyLife ChatGPT Retrieval Plugin using Docker:
+
+- `docker-compose up -d`
+  - if updating the python dependencies, run `docker-compose build text-embedding-server` to rebuild the image
 
 ## Quickstart
 
