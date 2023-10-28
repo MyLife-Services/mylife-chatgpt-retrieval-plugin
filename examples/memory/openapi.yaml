@@ -225,6 +225,8 @@ components:
         - email
         - file
         - chat
+        - corporate
+        - document        
       type: string
       description: An enumeration.
     UpsertRequest:
