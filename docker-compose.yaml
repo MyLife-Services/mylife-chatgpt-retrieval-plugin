@@ -1,0 +1,47 @@
+version: "3.8"
+services:
+  postgres_pgvector:
+    image: ankane/pgvector:latest
+    restart: always
+    container_name: postgres_pgvector
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 7bT!!icgg&f%7MH
+    volumes:
+      - mylife_pgvector_data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: mylife-pgadmin
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
+      PGADMIN_DEFAULT_PASSWORD: 7bT!!icgg&f%7MH
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      - postgres_pgvector
+  text-embedding-server:
+    build:
+      context: .  # Path to your text embedding server code
+    container_name: mylife-embedding-server
+    ports:
+      - "8000:8000"  # Map host port 8000 to container port 8000
+    environment:
+      PG_HOST: postgres_pgvector  # Use the service name as the hostname to connect to PostgreSQL
+      PG_PORT: 5432
+      PG_USER: postgres
+      PG_PASSWORD: 7bT!!icgg&f%7MH
+      PG_DB: postgres
+      DATASTORE: postgres
+      OPENAI_API_KEY: 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
+      BEARER_TOKEN: mylife-RsK09Zvut-6IJ4ct1v9-c0-U?/V5q?mNGQbKocX4?drpR8f!ewNX07lNO1BpiU-NRAaWs3zX=H6VY92s=4i=kESxdjBLKwxaDGkx/w5bY/rzeG9M=jUxZtk28KeO!imsWiA3uw3SblxNGUHbBw9bsBV7V/=75igKC/!/AwqQPtpvY36e?zcHOmQrvhuj/O2d?46ga8UykNfWbREwDXAg6Rc5BcUhk0H5oSX/5-MJXThuL0P2wsxNEKG83
+    depends_on:
+      - postgres_pgvector
+      
+volumes:
+  mylife_pgvector_data:
+  pgadmin_data:
