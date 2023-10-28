@@ -6,9 +6,8 @@ services:
     container_name: postgres_pgvector
     ports:
       - "5432:5432"
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 7bT!!icgg&f%7MH
+    env_file:
+      - .env  # Path to your .env file
     volumes:
       - mylife_pgvector_data:/var/lib/postgresql/data
   pgadmin:
@@ -17,9 +16,8 @@ services:
     container_name: mylife-pgadmin
     ports:
       - "5050:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@pgadmin.com
-      PGADMIN_DEFAULT_PASSWORD: 7bT!!icgg&f%7MH
+    env_file:
+      - .env  # Path to your .env file
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     depends_on:
