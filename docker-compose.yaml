@@ -7,9 +7,10 @@ services:
     ports:
       - "5432:5432"
     env_file:
-      - local_server/.env/pg.env  # Path to your .env file
+      - .env/pg.env  # Path to your .env file
     volumes:
       - mylife_pgvector_data:/var/lib/postgresql/data
+      - ./scripts/sql:/docker-entrypoint-initdb.d
   pgadmin:
     image: dpage/pgadmin4
     restart: always
@@ -17,19 +18,21 @@ services:
     ports:
       - "5050:80"
     env_file:
-      - local_server/.env/pgadmin.env  # Path to your .env file
+      - .env/pgadmin.env  # Path to your .env file
     volumes:
       - pgadmin_data:/var/lib/pgadmin
     depends_on:
       - postgres_pgvector
-  text-embedding-server:
+  embedding-server:
+#    image: mookse/mylife-embedding-server:latest
+### relevant when building locally for development
     build:
       context: .  # Path to your text embedding server code
     container_name: mylife-embedding-server
     ports:
       - "8000:8000"  # Map host port 8000 to container port 8000
     env_file:
-      - local_server/.env/embedder.env  # Path to your .env file
+      - .env/embedder.env  # Path to your .env file
     depends_on:
       - postgres_pgvector
       

@@ -65,7 +65,7 @@ This README provides detailed information on how to set up, develop, and deploy 
 Follow these steps to quickly set up and run the MyLife ChatGPT Retrieval Plugin using Docker:
 
 - `docker-compose up -d`
-  - if updating the python dependencies, run `docker-compose build text-embedding-server` to rebuild the image
+  - if updating the python dependencies, run `docker-compose build mylife-embedding-server` to rebuild the image
 
 ## Quickstart
 

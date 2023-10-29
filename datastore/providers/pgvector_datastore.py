@@ -1,3 +1,4 @@
+import os
 from abc import ABC, abstractmethod
 from typing import Any, Dict, List, Optional
 from datetime import datetime
@@ -58,6 +59,8 @@ class PGClient(ABC):
 # abstract class for Postgres based Datastore providers that implements DataStore interface
 class PgVectorDataStore(DataStore):
     def __init__(self):
+        # Load the table_name from the environment variable or use default value
+        self.table_name = os.environ.get("PG_DOCUMENTS", "mylife_documents")
         self.client = self.create_db_client()
 
     @abstractmethod
@@ -93,7 +96,8 @@ class PgVectorDataStore(DataStore):
                             to_unix_timestamp(chunk.metadata.created_at)
                         ),
                     )
-                await self.client.upsert("documents", json)
+                table_name = os.environ.get("DOCUMENTS_TABLE_NAME", "mylife_documents")
+                await self.client.upsert(table_name, json)
 
         return list(chunks.keys())
 
@@ -165,17 +169,17 @@ class PgVectorDataStore(DataStore):
         """
         if delete_all:
             try:
-                await self.client.delete_like("documents", "document_id", "%")
+                await self.client.delete_like(self.table_name, "document_id", "%")
             except:
                 return False
         elif ids:
             try:
-                await self.client.delete_in("documents", "document_id", ids)
+                await self.client.delete_in(self.table_name, "document_id", ids)
             except:
                 return False
         elif filter:
             try:
-                await self.client.delete_by_filters("documents", filter)
+                await self.client.delete_by_filters(self.table_name, filter)
             except:
                 return False
         return True
